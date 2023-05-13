@@ -1,4 +1,5 @@
-import { fetchContacts, addContact, deleteContact } from './operations';
+// import { fetchContacts, addContact, deleteContact } from './operations';
+import { register, logIn, logOut } from './operations';
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 const contactsInitialState = {
@@ -51,18 +52,14 @@ const contactsSlice = createSlice({
   // reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchContacts.pending, handleLoading)
-      .addCase(fetchContacts.fulfilled, handleFetchContacts)
-      .addCase(addContact.pending, handleAdding)
-      .addCase(addContact.fulfilled, handleAddContact)
-      .addCase(deleteContact.pending, handleDeleting)
-      .addCase(deleteContact.fulfilled, handleDeleteContact)
+      .addCase(register.pending, handleLoading)
+      .addCase(register.fulfilled, handleFetchContacts)
+      .addCase(logIn.pending, handleAdding)
+      .addCase(logIn.fulfilled, handleAddContact)
+      .addCase(logOut.pending, handleDeleting)
+      .addCase(logOut.fulfilled, handleDeleteContact)
       .addMatcher(
-        isAnyOf(
-          fetchContacts.rejected,
-          addContact.rejected,
-          deleteContact.rejected
-        ),
+        isAnyOf(register.rejected, logIn.rejected, logOut.rejected),
         handleRejected
       );
   },
