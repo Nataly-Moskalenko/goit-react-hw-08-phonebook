@@ -1,5 +1,8 @@
 export default function HomeView() {
   return (
-    <div>HomeView</div>
-  )
+    <div>
+      <p>Welcome to your personal Phonebook</p>
+      {/* <p>Please register here: </p> */}
+    </div>
+  );
 }

@@ -47,6 +47,7 @@ export default function LoginView() {
     };
     try {
       dispatch(logIn(userLogIn));
+      resetForm();
     } catch (error) {
       console.log(error);
     }
