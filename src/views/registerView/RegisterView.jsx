@@ -1,16 +1,11 @@
-// import { useState, useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-// import { selectContacts, selectStatus } from 'redux/selectors';
 import { register } from 'redux/operations';
 
-// import { toast } from 'react-toastify';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
 
-// import { Loader } from '../loader/Loader';
 import css from './RegisterView.module.css';
 
 export default function RegisterView() {
@@ -25,10 +20,6 @@ export default function RegisterView() {
   const passwordInputId = nanoid();
 
   const dispatch = useDispatch();
-  // const contacts = useSelector(selectContacts);
-  // const status = useSelector(selectStatus);
-
-  // const [addedContact, setAddedContact] = useState({});
 
   const patternName =
     /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
@@ -52,35 +43,18 @@ export default function RegisterView() {
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    const newContact = {
+    const newUser = {
       name: values.name,
       email: values.email,
       password: values.password,
-      // createdAt: Date.now(),
     };
-    // if (
-    //   contacts.find(
-    //     contact => contact.name.toLowerCase() === values.name.toLowerCase()
-    //   )
-    // ) {
-    //   toast.info(`${values.name} is already in contacts.`);
-    // } else {
     try {
-      dispatch(register(newContact));
-      // setAddedContact(newContact);
-      // toast.info(`Adding ${values.name} to contacts.`);
+      dispatch(register(newUser));
       resetForm();
     } catch (error) {
       console.log(error);
     }
-    // }
   };
-
-  // useEffect(() => {
-  //   if (status === 'addedContact') {
-  //     toast.info(`${addedContact.name} added to contacts.`);
-  //   }
-  // }, [status, addedContact]);
 
   return (
     <Formik
@@ -104,10 +78,7 @@ export default function RegisterView() {
           name="name"
           render={msg => <div className={css.registerError}>{msg}</div>}
         />
-        <label
-          className={css.registerEmail}
-          htmlFor={emailInputId}
-        >
+        <label className={css.registerEmail} htmlFor={emailInputId}>
           Email
         </label>
         <Field
@@ -139,13 +110,6 @@ export default function RegisterView() {
         />
         <button className={css.registerButton} type="submit">
           Register now
-          {/* {status === 'adding' && (
-            <div className={css.register}>
-              <span>Adding</span>
-              <Loader />
-            </div>
-          )} */}
-          {/* {status !== 'adding' && 'Add contact'} */}
         </button>
       </Form>
     </Formik>
