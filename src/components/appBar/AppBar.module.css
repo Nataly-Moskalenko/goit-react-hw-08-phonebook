@@ -1,4 +1,6 @@
 .appBar {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(0, 0, 255, 0.4);
 }

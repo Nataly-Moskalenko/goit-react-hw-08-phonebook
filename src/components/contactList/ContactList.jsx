@@ -48,11 +48,11 @@ export default function ContactList() {
       )}
       {visibleContacts.length > 0 && (
         <ul>
-          {visibleContacts.map(contact => (
+          {visibleContacts.map(contact => (            
             <ContactItem
               key={contact.id}
               name={contact.name}
-              number={contact.phone}
+              number={contact.number}
               id={contact.id}
             />
           ))}

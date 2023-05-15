@@ -8,7 +8,7 @@ export default function Navigation() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   return (
     <div className={css.navigation}>
-      <NavLink to="/">Home</NavLink>
+      <NavLink to="/">Home</NavLink>     
       {isLoggedIn && <NavLink to="/contacts">Contacts</NavLink>}
       <main>
         {/* <Suspense fallback={<div>Loading...</div>}> */}

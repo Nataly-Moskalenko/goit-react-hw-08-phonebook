@@ -1,5 +1,5 @@
-// import { ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Route, Routes } from 'react-router-dom';
 
@@ -14,16 +14,17 @@ import css from './App.module.css';
 export function App() {
   return (
     <div className={css.app}>
-      <AppBar />
+      <div className={css.appWrapper}>
+        <AppBar />
 
-      <Routes>
-        <Route exact path="/" element={<HomeView />} />
-        <Route path="register" element={<RegisterView />} />
-        <Route path="login" element={<LoginView />} />
-        <Route path="contacts" element={<ContactsView />} />
-      </Routes>
-
-      {/* <ToastContainer autoClose={3000} /> */}
+        <Routes>
+          <Route exact path="/" element={<HomeView />} />
+          <Route path="register" element={<RegisterView />} />
+          <Route path="login" element={<LoginView />} />
+          <Route path="contacts" element={<ContactsView />} />
+        </Routes>
+      </div>
+      <ToastContainer autoClose={3000} />
     </div>
   );
 }

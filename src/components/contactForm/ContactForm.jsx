@@ -51,8 +51,7 @@ export default function ContactForm() {
   const handleSubmit = (values, { resetForm }) => {
     const newContact = {
       name: values.name,
-      phone: values.number,
-      createdAt: Date.now(),
+      number: values.number,      
     };
     if (
       contacts.find(
