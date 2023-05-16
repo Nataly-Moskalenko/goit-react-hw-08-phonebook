@@ -31,13 +31,8 @@ const authSlice = createSlice({
         state.token = null;
         state.isLoggedIn = false;
       })
-      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        if (state.token === null) {
-          return;
-        }
-        state.user = { name: action.payload.name, email: action.payload.email };
-        // state.user = action.payload.user;
-        // state.token = action.payload.token;
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {        
+        state.user = action.payload;        
         state.isLoggedIn = true;
       });
     // .addMatcher(

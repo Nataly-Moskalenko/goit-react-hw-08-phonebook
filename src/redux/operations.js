@@ -78,26 +78,16 @@ export const fetchCurrentUser = createAsyncThunk(
   'auth/fetchCurrent',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
-    // console.log(thunkAPI.getState(), state);
     const persistedToken = state.auth.token;
-    // console.log(persistedToken);
     if (persistedToken === null) {
-      return;
+      return thunkAPI.rejectWithValue();
     }
     token.set(persistedToken);
     try {
       const response = await axios.get('/users/current');
-      // console.log(response.data);
       return response.data;
     } catch (e) {
       // return thunkAPI.rejectWithValue(e.message);
     }
-
-    // try {
-    //   const response = await axios.get('/contacts');
-    //   return response.data;
-    // } catch (e) {
-    //   // return thunkAPI.rejectWithValue(e.message);
-    // }
   }
 );
