@@ -86,6 +86,7 @@ export default function LoginView() {
           type="password"
           name="password"
           id={passwordInputId}
+          autoComplete="off"
           // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
         />

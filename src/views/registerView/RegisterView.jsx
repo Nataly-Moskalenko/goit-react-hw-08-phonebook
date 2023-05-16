@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { register } from 'redux/operations';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
 
 import css from './RegisterView.module.css';
@@ -21,26 +21,26 @@ export default function RegisterView() {
 
   const dispatch = useDispatch();
 
-  const patternName =
-    /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
+  // const patternName =
+  //   /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
   // const patternNumber =
   //   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
-  const schema = Yup.object().shape({
-    name: Yup.string()
-      .max(20, 'Name too long!')
-      .matches(
-        patternName,
-        "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-      )
-      .required('Required'),
+  // const schema = Yup.object().shape({
+  //   name: Yup.string()
+  //     .max(20, 'Name too long!')
+  //     .matches(
+  //       patternName,
+  //       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+  //     )
+  //     .required('Required'),
     // number: Yup.string()
     //   .matches(
     //     patternNumber,
     //     'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
     //   )
     //   .required('Required'),
-  });
+  // });
 
   const handleSubmit = (values, { resetForm }) => {
     const newUser = {
@@ -59,7 +59,7 @@ export default function RegisterView() {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={schema}
+      // validationSchema={schema}
       onSubmit={handleSubmit}
     >
       <Form className={css.registerForm} autoComplete="off">
@@ -71,7 +71,7 @@ export default function RegisterView() {
           type="text"
           name="name"
           id={nameInputId}
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
         />
         <ErrorMessage
@@ -101,6 +101,7 @@ export default function RegisterView() {
           type="password"
           name="password"
           id={passwordInputId}
+          autoComplete="off"
           // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
         />

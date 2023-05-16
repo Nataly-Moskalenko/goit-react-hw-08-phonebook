@@ -1,4 +1,4 @@
-import { register, logIn, logOut } from './operations';
+import { register, logIn, logOut, fetchCurrentUser } from './operations';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -30,6 +30,15 @@ const authSlice = createSlice({
         state.user = { name: null, email: null };
         state.token = null;
         state.isLoggedIn = false;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        if (state.token === null) {
+          return;
+        }
+        state.user = { name: action.payload.name, email: action.payload.email };
+        // state.user = action.payload.user;
+        // state.token = action.payload.token;
+        state.isLoggedIn = true;
       });
     // .addMatcher(
     //   isAnyOf(register.rejected, logIn.rejected, logOut.rejected),

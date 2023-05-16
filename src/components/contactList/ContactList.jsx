@@ -43,12 +43,18 @@ export default function ContactList() {
         </div>
       )}
       {error && <p>Sorry, something went wrong: {error}</p>}
+      {contacts.length === 0 && (
+        <>
+          <p>You currently have no contacts.</p>
+          <p>Let's add contacts to your Phonebook!</p>
+        </>
+      )}
       {visibleContacts.length === 0 && contacts.length !== 0 && (
         <p>There are no contacts by your search.</p>
       )}
       {visibleContacts.length > 0 && (
         <ul>
-          {visibleContacts.map(contact => (            
+          {visibleContacts.map(contact => (
             <ContactItem
               key={contact.id}
               name={contact.name}

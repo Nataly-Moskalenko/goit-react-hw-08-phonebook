@@ -1,5 +1,5 @@
 .registerForm {
-  margin-top: 16px;
+  margin: 50px auto;
   border: 2px solid rgba(0, 0, 255, 0.4);
   border-radius: 4px;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
@@ -22,9 +22,10 @@
   background-color: rgb(234, 248, 250);
 }
 
-/* .registertNumber {
+.registerEmail,
+.registerPassword {
   margin-top: 24px;
-} */
+}
 
 .registerInput:focus {
   border: 2px solid blue;
@@ -52,9 +53,3 @@
   color: blue;
   font-size: 14px;
 }
-
-/* .register {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-around;
-} */
