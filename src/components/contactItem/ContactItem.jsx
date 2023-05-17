@@ -53,25 +53,26 @@ export default function ContactItem({ name, number, id }) {
         <span>{name}: </span>
         <span>{number}</span>
       </div>
-      <NavLink to="/contacts/:contactID">
+      <div className={css.buttons}>
+        <NavLink to="/contacts/:update">
+          <button
+            className={css.contactButton}
+            type="button"
+            onClick={() => handleUpdateContact(id)}
+          >
+            <span>Update</span>
+          </button>
+        </NavLink>
         <button
-          className={css.contactDeleteButton}
+          className={css.contactButton}
           type="button"
-          onClick={() => handleUpdateContact(id)}
+          onClick={() => handleDeleteContact(id)}
+          disabled={status === 'deleting'}
         >
-          <span>Update</span>
+          <span>Delete</span>
+          {status === 'deleting' && clickedContact.name && <Loader />}
         </button>
-      </NavLink>
-
-      <button
-        className={css.contactDeleteButton}
-        type="button"
-        onClick={() => handleDeleteContact(id)}
-        // disabled={isDeleting}
-      >
-        <span>Delete</span>
-        {status === 'deleting' && clickedContact.name && <Loader />}
-      </button>
+      </div>
     </li>
   );
 }

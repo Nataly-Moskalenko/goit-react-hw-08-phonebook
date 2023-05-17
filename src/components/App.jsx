@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchCurrentUser } from 'redux/operations';
-import { selectIsRefreshing } from 'redux/selectors';
+import { selectAuthStatus } from 'redux/selectors';
 
 import AppBar from './userNavigation/appBar/AppBar';
 import HomeView from 'views/homeView/HomeView';
@@ -21,7 +21,7 @@ import css from './App.module.css';
 
 export function App() {
   const dispatch = useDispatch();
-  const isRefreshing = useSelector(selectIsRefreshing);
+  const status = useSelector(selectAuthStatus);
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
@@ -29,7 +29,7 @@ export function App() {
 
   return (
     <div className={css.app}>
-      {!isRefreshing && (
+      {status !== 'isRefreshing' && (
         <div className={css.appWrapper}>
           <AppBar></AppBar>
 
@@ -60,7 +60,7 @@ export function App() {
               }
               />             
               <Route
-              path="contacts/:contactId"
+              path="contacts/:update"
               element={
                 <PrivateRoute>
                   <UpdateContactView />

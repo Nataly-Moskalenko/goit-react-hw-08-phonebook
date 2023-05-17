@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUpdate, selectStatus } from 'redux/selectors';
 import { updateContact } from 'redux/operations';
-import css from '../../components/contactForm/ContactForm.module.css';
+import css from './UpdateContactView.module.css';
 import { update } from 'redux/updateSlice';
+import { Loader } from 'components/loader/Loader';
 
 // import { FaUserAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -65,7 +66,9 @@ export default function UpdateContactView() {
       updating.name === initialValues.name &&
       updating.number === initialValues.number
     ) {
-      toast.info(`You did not change anything in contact ${updating.name}.`);
+      toast.info(
+        `You did not change anything in the contact ${updating.name}.`
+      );
       return;
     }
     try {
@@ -79,52 +82,61 @@ export default function UpdateContactView() {
 
   useEffect(() => {
     if (status === 'updatedContact') {
-      toast.info(`Successfully updated ${updatedContact.name}.`);
+      toast.info(`Successfully updated the contact ${updatedContact.name}.`);
     }
   }, [status, updatedContact]);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={schema}
-      onSubmit={handleSubmit}
-      onChange={handleChangeContact}
-    >
-      <Form className={css.contactForm} autoComplete="off">
-        <label className={css.contactName} htmlFor={nameInputId}>
-          Name
-        </label>
-        <Field
-          className={css.contactInput}
-          type="text"
-          name="name"
-          id={nameInputId}
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-        <ErrorMessage
-          name="name"
-          render={msg => <div className={css.contactError}>{msg}</div>}
-        />
-        <label className={css.contactNumber} htmlFor={numberInputId}>
-          Number
-        </label>
-        <Field
-          className={css.contactInput}
-          type="tel"
-          name="number"
-          id={numberInputId}
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-        <ErrorMessage
-          name="number"
-          render={msg => <div className={css.contactError}>{msg}</div>}
-        />
-        <button className={css.contactAddButton} type="submit">
-          Update
-        </button>
-      </Form>
-    </Formik>
+    <>
+      <h1 className={css.updateContactTitle}>Contact update page</h1>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={schema}
+        onSubmit={handleSubmit}
+        onChange={handleChangeContact}
+      >
+        <Form className={css.updateContactForm} autoComplete="off">
+          <label className={css.updateContactName} htmlFor={nameInputId}>
+            Name
+          </label>
+          <Field
+            className={css.updateContactInput}
+            type="text"
+            name="name"
+            id={nameInputId}
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+          />
+          <ErrorMessage
+            name="name"
+            render={msg => <div className={css.updateContactError}>{msg}</div>}
+          />
+          <label className={css.updateContactNumber} htmlFor={numberInputId}>
+            Number
+          </label>
+          <Field
+            className={css.updateContactInput}
+            type="tel"
+            name="number"
+            id={numberInputId}
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+          />
+          <ErrorMessage
+            name="number"
+            render={msg => <div className={css.updateContactError}>{msg}</div>}
+          />
+          <button className={css.updateContactButton} type="submit">
+          {status === 'updating' && (
+            <div className={css.updateContact}>
+              <span>Updating</span>
+              <Loader />
+            </div>
+          )}
+          {status !== 'updating' && 'Update'}           
+          </button>
+        </Form>
+      </Formik>
+    </>
   );
 }

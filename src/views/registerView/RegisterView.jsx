@@ -1,10 +1,12 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 import { register } from 'redux/operations';
+import { selectAuthStatus } from 'redux/selectors';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-// import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
 
 import css from './RegisterView.module.css';
 
@@ -20,27 +22,7 @@ export default function RegisterView() {
   const passwordInputId = nanoid();
 
   const dispatch = useDispatch();
-
-  // const patternName =
-  //   /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
-  // const patternNumber =
-  //   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-
-  // const schema = Yup.object().shape({
-  //   name: Yup.string()
-  //     .max(20, 'Name too long!')
-  //     .matches(
-  //       patternName,
-  //       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-  //     )
-  //     .required('Required'),
-    // number: Yup.string()
-    //   .matches(
-    //     patternNumber,
-    //     'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
-    //   )
-    //   .required('Required'),
-  // });
+  const status = useSelector(selectAuthStatus);  
 
   const handleSubmit = (values, { resetForm }) => {
     const newUser = {
@@ -50,16 +32,22 @@ export default function RegisterView() {
     };
     try {
       dispatch(register(newUser));
-      resetForm();
+      // resetForm();
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    if (status === 'registerRejected') {
+      toast.info('Sorry, something went wrong. Please try again to register.');
+      return;
+    }
+  }, [status]);
+
   return (
     <Formik
-      initialValues={initialValues}
-      // validationSchema={schema}
+      initialValues={initialValues}     
       onSubmit={handleSubmit}
     >
       <Form className={css.registerForm} autoComplete="off">
@@ -70,8 +58,7 @@ export default function RegisterView() {
           className={css.registerInput}
           type="text"
           name="name"
-          id={nameInputId}
-          // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          id={nameInputId}         
           required
         />
         <ErrorMessage
@@ -85,8 +72,7 @@ export default function RegisterView() {
           className={css.registerInput}
           type="email"
           name="email"
-          id={emailInputId}
-          // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          id={emailInputId}          
           required
         />
         <ErrorMessage
@@ -102,7 +88,7 @@ export default function RegisterView() {
           name="password"
           id={passwordInputId}
           autoComplete="off"
-          // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          title="The password must be at least 7 characters long"
           required
         />
         <ErrorMessage

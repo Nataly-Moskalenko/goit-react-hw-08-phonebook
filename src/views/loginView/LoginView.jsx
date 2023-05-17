@@ -1,10 +1,12 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { selectAuthStatus } from 'redux/selectors';
 
 import { logIn } from 'redux/operations';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-// import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
 
 import css from './LoginView.module.css';
 
@@ -18,27 +20,7 @@ export default function LoginView() {
   const passwordInputId = nanoid();
 
   const dispatch = useDispatch();
-
-  // const patternName =
-  //   /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
-  // const patternNumber =
-  //   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-
-  // const schema = Yup.object().shape({
-  //   name: Yup.string()
-  //     .max(20, 'Name too long!')
-  //     .matches(
-  //       patternName,
-  //       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-  //     )
-  //     .required('Required'),
-  // number: Yup.string()
-  //   .matches(
-  //     patternNumber,
-  //     'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
-  //   )
-  //   .required('Required'),
-  // });
+  const status = useSelector(selectAuthStatus);  
 
   const handleSubmit = (values, { resetForm }) => {
     const userLogIn = {
@@ -47,31 +29,28 @@ export default function LoginView() {
     };
     try {
       dispatch(logIn(userLogIn));
-      resetForm();
+      // resetForm();
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    if (status === 'loginRejected') {
+      toast.info('Sorry, something went wrong. Please try again to login.');
+      return;
+    }
+  }, [status]);
+
   return (
-    <Formik
-      initialValues={initialValues}
-      // validationSchema={schema}
-      onSubmit={handleSubmit}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form className={css.loginForm} autoComplete="off">
-        <label
-          // className={css.contactNumber}
-          htmlFor={emailInputId}
-        >
-          Email
-        </label>
+        <label htmlFor={emailInputId}>Email</label>
         <Field
           className={css.loginInput}
           type="email"
           name="email"
           id={emailInputId}
-          // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
         />
         <ErrorMessage
@@ -87,7 +66,6 @@ export default function LoginView() {
           name="password"
           id={passwordInputId}
           autoComplete="off"
-          // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
         />
         <ErrorMessage

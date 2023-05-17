@@ -51,7 +51,7 @@ export default function ContactForm() {
   const handleSubmit = (values, { resetForm }) => {
     const newContact = {
       name: values.name,
-      number: values.number,      
+      number: values.number,
     };
     if (
       contacts.find(
@@ -62,17 +62,16 @@ export default function ContactForm() {
     } else {
       try {
         dispatch(addContact(newContact));
-        setAddedContact(newContact);       
-        // toast.info(`Adding ${values.name} to contacts.`);
+        setAddedContact(newContact);
         resetForm();
       } catch (error) {
         console.log(error);
       }
     }
-  };  
+  };
 
   useEffect(() => {
-    if (status === 'addedContact') {
+    if (status === 'addedContact' && addedContact.name) {
       toast.info(`${addedContact.name} added to contacts.`);
     }
   }, [status, addedContact]);

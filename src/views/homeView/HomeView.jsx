@@ -1,21 +1,11 @@
 import css from './HomeView.module.css';
-// import { useSelector } from 'react-redux';
-// import { selectIsLoggedIn } from 'redux/selectors';
+import image from '../../images/4560176.jpg';
 
 export default function HomeView() {
-  // const isLoggedIn = useSelector(selectIsLoggedIn);
-
   return (
     <div className={css.home}>
-      {/* {isLoggedIn ? ( */}
-        <p>Welcome to your personal Phonebook!</p>
-      {/* ) : (
-        <>
-          <p>Welcome to your personal Phonebook!</p>
-          <p>Please register to use this Phonebook.</p>
-          <p>If you have already registered, please login.</p>
-        </>
-      )} */}
+      <h1>Welcome to your personal Phonebook!</h1>
+      <img src={image} alt="Phonebook" className={css.homeImage} />
     </div>
   );
 }
