@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import { selectStatus, selectContacts } from 'redux/selectors';
 import { deleteContact } from 'redux/operations';
+import { update } from 'redux/updateSlice';
 
 import { FaUserAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -16,6 +18,7 @@ export default function ContactItem({ name, number, id }) {
   const dispatch = useDispatch();
   const status = useSelector(selectStatus);
   const contacts = useSelector(selectContacts);
+
   const [clickedContact, setClickedContact] = useState({});
 
   const handleDeleteContact = id => {
@@ -23,7 +26,15 @@ export default function ContactItem({ name, number, id }) {
       const deletingContact = contacts.filter(contact => contact.id === id);
       setClickedContact(deletingContact[0]);
       dispatch(deleteContact(id));
-      // toast.info(`Deleting ${deletingContact[0].name} from contacts.`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpdateContact = id => {
+    try {
+      const upContact = contacts.filter(contact => contact.id === id);
+      dispatch(update(upContact[0]));
     } catch (error) {
       console.log(error);
     }
@@ -42,6 +53,16 @@ export default function ContactItem({ name, number, id }) {
         <span>{name}: </span>
         <span>{number}</span>
       </div>
+      <NavLink to="/contacts/:contactID">
+        <button
+          className={css.contactDeleteButton}
+          type="button"
+          onClick={() => handleUpdateContact(id)}
+        >
+          <span>Update</span>
+        </button>
+      </NavLink>
+
       <button
         className={css.contactDeleteButton}
         type="button"

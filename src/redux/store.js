@@ -15,6 +15,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { authReducer } from './authSlice';
 import { contactsReducer } from './contactsSlice';
 import { filterReducer } from './filterSlice';
+import { updateReducer } from './updateSlice';
 
 const persistConfig = {
   key: 'auth',
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   auth: authPersistedReducer,
   contacts: contactsReducer,
   filter: filterReducer,
+  update: updateReducer,
 });
 
 export const store = configureStore({

@@ -1,8 +1,13 @@
-import { fetchContacts, addContact, deleteContact } from './operations';
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+  updateContact,
+} from './operations';
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 const contactsInitialState = {
-  items: [], 
+  items: [],
   status: 'idle',
   error: null,
 };
@@ -22,6 +27,10 @@ const handleAdding = state => {
 
 const handleDeleting = state => {
   state.status = 'deleting';
+};
+
+const handleUpdating = state => {
+  state.status = 'updating';
 };
 
 const handleFetchContacts = (state, action) => {
@@ -45,10 +54,15 @@ const handleDeleteContact = (state, action) => {
   state.items.splice(index, 1);
 };
 
+const handleUpdateContact = (state, action) => {
+  state.status = 'updatedContact';
+  state.error = null;  
+  state.items.filter(contact => contact.id !== action.payload.id).push(action.payload);
+};
+
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: contactsInitialState,
-  // reducers: {},
+  initialState: contactsInitialState,  
   extraReducers: builder => {
     builder
       .addCase(fetchContacts.pending, handleLoading)
@@ -57,11 +71,14 @@ const contactsSlice = createSlice({
       .addCase(addContact.fulfilled, handleAddContact)
       .addCase(deleteContact.pending, handleDeleting)
       .addCase(deleteContact.fulfilled, handleDeleteContact)
+      .addCase(updateContact.pending, handleUpdating)
+      .addCase(updateContact.fulfilled, handleUpdateContact)
       .addMatcher(
         isAnyOf(
           fetchContacts.rejected,
           addContact.rejected,
-          deleteContact.rejected
+          deleteContact.rejected,
+          updateContact.rejected
         ),
         handleRejected
       );
