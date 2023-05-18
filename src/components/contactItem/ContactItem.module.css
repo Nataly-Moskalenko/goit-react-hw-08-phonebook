@@ -22,7 +22,7 @@
 
 .contactItem:hover {
   cursor: context-menu; 
-  font-weight: 700;  
+  text-shadow: 1px 1px #28048d;
 }
 
 .contactItem:hover .contactButton {
