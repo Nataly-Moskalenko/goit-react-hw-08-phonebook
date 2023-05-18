@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectUpdate, selectStatus } from 'redux/selectors';
+import { selectUpdate, selectStatus, selectContacts } from 'redux/selectors';
 import { updateContact } from 'redux/operations';
 import { update } from 'redux/updateSlice';
 
@@ -16,6 +16,7 @@ import css from './UpdateForm.module.css';
 
 export default function UpdateForm() {
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
   const status = useSelector(selectStatus);
   const [upContact, setUpContact] = useState(useSelector(selectUpdate));
 
@@ -69,12 +70,21 @@ export default function UpdateForm() {
         `You did not change anything in the contact ${updating.name}.`
       );
       return;
-    }
-    try {
-      dispatch(updateContact(updating));
-      setInitialValues(updating);
-    } catch (error) {
-      console.log(error);
+    } else if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === updating.name.toLowerCase()
+      ) &&
+      updating.name.toLowerCase() !== initialValues.name.toLowerCase()
+    ) {
+      toast.info(`${updating.name} is already in contacts.`);
+      return;
+    } else {
+      try {
+        dispatch(updateContact(updating));
+        setInitialValues(updating);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
