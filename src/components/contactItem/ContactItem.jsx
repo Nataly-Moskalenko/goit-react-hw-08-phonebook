@@ -54,7 +54,7 @@ export default function ContactItem({ name, number, id }) {
         <span>{number}</span>
       </div>
       <div className={css.buttons}>
-        <NavLink to="/contacts/:update">
+        <NavLink to="/contacts/update">
           <button
             className={css.contactButton}
             type="button"

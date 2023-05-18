@@ -57,3 +57,7 @@
   align-items: baseline;
   justify-content: space-around;
 }
+
+.error {
+  color: red;
+}

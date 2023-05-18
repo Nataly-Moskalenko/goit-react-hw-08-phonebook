@@ -31,8 +31,7 @@ export function App() {
     <div className={css.app}>
       {status !== 'isRefreshing' && (
         <div className={css.appWrapper}>
-          <AppBar></AppBar>
-
+          <AppBar />
           <Routes>
             <Route exact path="/" element={<HomeView />} />
             <Route
@@ -58,15 +57,16 @@ export function App() {
                   <ContactsView />
                 </PrivateRoute>
               }
-              />             
-              <Route
-              path="contacts/:update"
+            />
+            <Route
+              path="contacts/update"
               element={
                 <PrivateRoute>
                   <UpdateContactView />
                 </PrivateRoute>
               }
-              />           
+            />
+            <Route path="*" element={<HomeView />} />
           </Routes>
         </div>
       )}

@@ -41,8 +41,7 @@ export default function ContactList() {
           Loading contacts...
           <LoaderLarge />
         </div>
-      )}
-      {error && <p>Sorry, something went wrong: {error}</p>}
+      )}     
       {contacts.length === 0 && (
         <>
           <p>You currently have no contacts.</p>

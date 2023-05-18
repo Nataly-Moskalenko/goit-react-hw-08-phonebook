@@ -23,7 +23,7 @@ export default function ContactForm() {
 
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
-  const status = useSelector(selectStatus);
+  const status = useSelector(selectStatus); 
 
   const [addedContact, setAddedContact] = useState({});
 
@@ -121,7 +121,7 @@ export default function ContactForm() {
             </div>
           )}
           {status !== 'adding' && 'Add contact'}
-        </button>
+        </button>        
       </Form>
     </Formik>
   );

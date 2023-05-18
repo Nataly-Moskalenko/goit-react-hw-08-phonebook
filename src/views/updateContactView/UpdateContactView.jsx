@@ -1,24 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUpdate, selectStatus } from 'redux/selectors';
+
+import { selectUpdate, selectStatus, selectError } from 'redux/selectors';
 import { updateContact } from 'redux/operations';
-import css from './UpdateContactView.module.css';
 import { update } from 'redux/updateSlice';
+
 import { Loader } from 'components/loader/Loader';
 
-// import { FaUserAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-// import { Loader } from '../loader/Loader';
-
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
 
+import css from './UpdateContactView.module.css';
+
 export default function UpdateContactView() {
   const dispatch = useDispatch();
+  const error = useSelector(selectError);
   const status = useSelector(selectStatus);
   const [upContact, setUpContact] = useState(useSelector(selectUpdate));
-  const [updatedContact, setUpdatedContact] = useState(upContact);
 
   const [initialValues, setInitialValues] = useState({
     name: upContact.name,
@@ -74,7 +74,6 @@ export default function UpdateContactView() {
     try {
       dispatch(updateContact(updating));
       setInitialValues(updating);
-      setUpdatedContact(updating);
     } catch (error) {
       console.log(error);
     }
@@ -82,9 +81,9 @@ export default function UpdateContactView() {
 
   useEffect(() => {
     if (status === 'updatedContact') {
-      toast.info(`Successfully updated the contact ${updatedContact.name}.`);
+      toast.info(`Successfully updated the contact ${initialValues.name}.`);
     }
-  }, [status, updatedContact]);
+  }, [status, initialValues]);
 
   return (
     <>
@@ -127,16 +126,19 @@ export default function UpdateContactView() {
             render={msg => <div className={css.updateContactError}>{msg}</div>}
           />
           <button className={css.updateContactButton} type="submit">
-          {status === 'updating' && (
-            <div className={css.updateContact}>
-              <span>Updating</span>
-              <Loader />
-            </div>
-          )}
-          {status !== 'updating' && 'Update'}           
+            {status === 'updating' && (
+              <div className={css.updateContact}>
+                <span>Updating</span>
+                <Loader />
+              </div>
+            )}
+            {status !== 'updating' && 'Update'}
           </button>
         </Form>
       </Formik>
+      {error && (
+        <p className={css.error}>Sorry, something went wrong: {error}</p>
+      )}
     </>
   );
 }

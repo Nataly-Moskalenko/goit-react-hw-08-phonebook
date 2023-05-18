@@ -4,3 +4,7 @@
   display: flex;
   align-items: baseline;
 }
+
+.error {
+  color: red;
+}

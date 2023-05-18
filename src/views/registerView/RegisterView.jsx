@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { register } from 'redux/operations';
 import { selectAuthStatus } from 'redux/selectors';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { nanoid } from 'nanoid';
 import { toast } from 'react-toastify';
 
@@ -22,9 +22,9 @@ export default function RegisterView() {
   const passwordInputId = nanoid();
 
   const dispatch = useDispatch();
-  const status = useSelector(selectAuthStatus);  
+  const status = useSelector(selectAuthStatus);
 
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = values => {
     const newUser = {
       name: values.name,
       email: values.email,
@@ -32,7 +32,6 @@ export default function RegisterView() {
     };
     try {
       dispatch(register(newUser));
-      // resetForm();
     } catch (error) {
       console.log(error);
     }
@@ -46,59 +45,49 @@ export default function RegisterView() {
   }, [status]);
 
   return (
-    <Formik
-      initialValues={initialValues}     
-      onSubmit={handleSubmit}
-    >
-      <Form className={css.registerForm} autoComplete="off">
-        <label className={css.registerName} htmlFor={nameInputId}>
-          Name
-        </label>
-        <Field
-          className={css.registerInput}
-          type="text"
-          name="name"
-          id={nameInputId}         
-          required
-        />
-        <ErrorMessage
-          name="name"
-          render={msg => <div className={css.registerError}>{msg}</div>}
-        />
-        <label className={css.registerEmail} htmlFor={emailInputId}>
-          Email
-        </label>
-        <Field
-          className={css.registerInput}
-          type="email"
-          name="email"
-          id={emailInputId}          
-          required
-        />
-        <ErrorMessage
-          name="email"
-          render={msg => <div className={css.registerError}>{msg}</div>}
-        />
-        <label className={css.registerPassword} htmlFor={passwordInputId}>
-          Password
-        </label>
-        <Field
-          className={css.registerInput}
-          type="password"
-          name="password"
-          id={passwordInputId}
-          autoComplete="off"
-          title="The password must be at least 7 characters long"
-          required
-        />
-        <ErrorMessage
-          name="password"
-          render={msg => <div className={css.registerError}>{msg}</div>}
-        />
-        <button className={css.registerButton} type="submit">
-          Register now
-        </button>
-      </Form>
-    </Formik>
+    <>
+      <h1 className={css.registerTitle}>Registration Form</h1>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        <Form className={css.registerForm}>
+          <label className={css.registerName} htmlFor={nameInputId}>
+            Name
+          </label>
+          <Field
+            className={css.registerInput}
+            type="text"
+            name="name"
+            id={nameInputId}
+            autoComplete="off"
+            required
+          />
+          <label className={css.registerEmail} htmlFor={emailInputId}>
+            Email
+          </label>
+          <Field
+            className={css.registerInput}
+            type="email"
+            name="email"
+            id={emailInputId}
+            autoComplete="off"
+            required
+          />
+          <label className={css.registerPassword} htmlFor={passwordInputId}>
+            Password
+          </label>
+          <Field
+            className={css.registerInput}
+            type="password"
+            name="password"
+            id={passwordInputId}
+            autoComplete="off"
+            title="The password must be at least 7 characters long"
+            required
+          />
+          <button className={css.registerButton} type="submit">
+            Register now
+          </button>
+        </Form>
+      </Formik>
+    </>
   );
 }
